@@ -1,0 +1,11 @@
+react + vite
+tailwindcss
+monacoeditor react
+yjs 
+y-monaco ,y-socket.io,yjs packages
+
+
+node 
+express
+socket.io
+y-socket.io

@@ -1,0 +1,1 @@
+the change is stored in the ydocument and the editor is updated accordingly. This allows for real-time collaborative editing of code in the Monaco Editor using Yjs.
