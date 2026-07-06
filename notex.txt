@@ -1,3 +1,44 @@
+https://www.youtube.com/shorts/bq0ou4a8GBA
+
 Built a real-time collaborative code editor using React, Monaco Editor, Yjs (CRDT), and Socket.IO, enabling multiple users to edit the same code simultaneously with live sync — containerized with Docker and deployed on AWS EC2.
 
 the change is stored in the ydocument and the editor is updated accordingly. This allows for real-time collaborative editing of code in the Monaco Editor using Yjs.
+
+we run npm run build that creates html,css and js in a dist folder which we copy and paste it in in the public floder of backend now if you open the backend port then you can see the frontend output
+
+by using 
+app.use(express.static("public")) in the backend server.js file we can serve the frontend files from the public folder
+
+The Problem: A program might work on a developer's laptop but break when sent to a server because the server has a different operating system version, missing libraries, or conflicting settings.
+
+The Solution: Docker puts the program inside a digital shipping container. It locks in the code, the specific settings, and the tools required so it can be shipped and run anywhere without changing
+
+Dockerfile
+The recipe/blueprint — a text file with step-by-step instructions on how to construct your image (what base OS/Node version to start from, what files to copy, what commands to run, what command starts the app). Without this, Docker has no idea what your app needs.
+
+docker build
+Reads the Dockerfile and actually constructs the image based on those instructions — like a chef following the recipe and producing a finished, sealed meal (the image). This step happens once per code change; the output is a reusable image sitting on your machine (or wherever you built it).
+bashdocker build -t backend .
+
+docker run
+Takes that built image and actually starts it running as a live container — like taking the sealed meal out of the locker and actually serving/eating it now. This is the step that starts your app process.
+bashdocker run -p 4000:3000 backend
+
+
+Why not just copy your local node_modules instead of reinstalling?
+Because your local node_modules was built for your specific OS/architecture (Windows, in your case). Some npm packages have native binaries (like bcrypt, sharp, etc.) compiled specifically for the OS they were installed on
+
+
+ECR (Elastic Container Registry)
+A storage/hosting service for your Docker images on AWS — think of it like GitHub, but for Docker images instead of code.
+You docker build an image locally (or on EC2)
+You push that image to ECR
+Later, ECS (or EC2) pulls that image from ECR to actually run it
+
+ECS (Elastic Container Service)
+AWS's service for actually running and managing your containers at scale. Instead of manually SSH-ing into an EC2 instance and typing docker run yourself, ECS handles:
+
+Pulling your image from ECR
+Starting/stopping containers
+Restarting a container automatically if it crashes
+Scaling up (running more containers) if traffic increases

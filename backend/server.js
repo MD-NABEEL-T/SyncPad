@@ -8,6 +8,7 @@ import cors from 'cors'
 const app=express()
 const httpServer=createServer(app)
 
+app.use(express.static("public"))
 
 const io=new Server(httpServer,{
   cors:{
@@ -18,13 +19,6 @@ const io=new Server(httpServer,{
 
 const ySocketIO=new YSocketIO(io)
 ySocketIO.initialize()
-
-app.get("/",(req,res)=>{
-    res.status(200).json({
-        message:"Hello World",
-        success:true
-    })
-})
 
 app.get('/health', (req, res) => {
   res.status(200).json(
