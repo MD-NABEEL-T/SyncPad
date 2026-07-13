@@ -1,1 +1,1 @@
-ask claude to tell me whatever we have performed till now 
+ask claude to tell me whatever we have performed till now and then based on that write the workflow and paste it in the readme 
