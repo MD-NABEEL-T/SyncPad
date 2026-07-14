@@ -13,6 +13,8 @@ Multiple people can open the same editor and type simultaneously, with every key
 [![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
 [![AWS EC2](https://img.shields.io/badge/Deployed_on-AWS_EC2-FF9900?logo=amazonaws&logoColor=white)](https://aws.amazon.com/ec2/)
 
+### 🔗 [**Try it live →**](http://13.233.206.8:4000)
+
 </div>
 
 ---
@@ -31,20 +33,6 @@ SyncPad is a browser-based code editor where anyone with the link can join a sha
 - **Containerized & cloud-deployed** — packaged with Docker and running live on AWS EC2
 
 ## 🧠 How it works
-
-```
-┌──────────────┐         WebSocket (Socket.IO)         ┌──────────────┐
-│   Browser A  │ ◄────────────────────────────────────► │              │
-│ Monaco Editor│                                         │  Node.js /   │
-│   + Yjs Doc  │                                         │  Express     │
-└──────────────┘                                         │  Server      │
-                                                          │              │
-┌──────────────┐                                         │  y-socket.io │
-│   Browser B  │ ◄────────────────────────────────────► │  (Yjs relay) │
-│ Monaco Editor│                                         │              │
-│   + Yjs Doc  │                                         └──────────────┘
-└──────────────┘
-```
 
 Each browser holds its own local **Yjs document** — a special data structure that can merge changes from anywhere without conflicts. The **`y-socket.io`** library keeps every connected browser's Yjs document in sync in real time, using Socket.IO as the transport layer. The **`y-monaco`** binding then wires that synced document directly into the Monaco Editor, so keystrokes flow: `Editor → Yjs Doc → Socket.IO → Server → other clients' Yjs Docs → their Editors`.
 
