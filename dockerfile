@@ -1,7 +1,7 @@
-FROM node:20-alpine
-COPY ./Backend .
-RUN npm install
-CMD ["node", "server.js"] 
+# FROM node:20-alpine
+# COPY ./Backend .
+# RUN npm install
+# CMD ["node", "server.js"] 
 # docker build -t backend is not supported in my desktop
 # here bakcend is the name of the image and we can run it using docker run backend
 
