@@ -23,7 +23,8 @@ RUN npm run build   # produces a /app/dist folder
 # ---- Stage 2: Final (production) ----
 FROM node:20-alpine
 WORKDIR /app
-COPY --from=build /app/dist ./public   # only copy the built output
+COPY --from=build /app/dist ./public   
+# only copy the built output
 COPY ./backend .
 RUN npm install --production
 CMD ["node", "server.js"]
