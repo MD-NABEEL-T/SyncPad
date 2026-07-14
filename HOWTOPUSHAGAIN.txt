@@ -1,0 +1,6 @@
+cd ~/SyncPad — go into the project folder
+git pull — fetch your latest code changes from GitHub onto the EC2 instance
+docker build -t backend . — rebuild the image using that new code (bakes your title change into a fresh dist/public build)
+docker stop syncpad-app — stop the old running container (still running the old code)
+docker rm syncpad-app — delete that stopped container so the name is free to reuse
+docker run -d -p 4000:3000 --name syncpad-app --restart unless-stopped backend — start a new container from the freshly built image

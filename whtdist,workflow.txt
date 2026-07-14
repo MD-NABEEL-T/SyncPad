@@ -18,3 +18,14 @@ docker ps shows only running containers. docker ps -a shows all containers, incl
 docker exec -it syncpad-app sh lets you open a shell inside the running container, as if you SSH'd into it — handy for poking around and checking files exist where you expect.
 Your .pem key file (docker-key.pem) is essentially a password — never commit it to GitHub or share it. It's the only thing standing between anyone on the internet and root access to your instance.
 Right now your Security Group likely still has SSH (port 22) open to "Anywhere" by default from when you launched the instance — that's normal and expected for SSH access, just worth being aware it exists alongside your new port 4000 rule.
+
+
+On the dist/public question — no, you don't need to build or copy anything manually. That's the entire point of the multi-stage Dockerfile you have. When you run:
+bashdocker build -t backend .
+Docker automatically does all of this for you, inside temporary build containers:
+
+Stage 1 copies your frontend folder in, runs npm install, then npm run build — Vite generates the dist folder with your compiled HTML/CSS/JS (including your new <title>SyncPad</title>)
+Stage 2 then copies that dist folder's contents into a public folder alongside your backend code
+The final image only keeps this public folder + your backend — none of the temporary build tools
+
+So your job is only ever: edit code → push to GitHub → git pull on EC2 → docker build → restart the container. The dist/public folder creation and copying happens automatically as part of that docker build step — you never touch those folders by hand.
