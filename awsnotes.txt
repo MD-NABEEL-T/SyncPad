@@ -1,0 +1,11 @@
+sudo stands for "superuser do" — it means "run this next command with administrator/root privileges." Linux normally protects you from accidentally breaking the system, so regular users (like ec2-user) can't install software, modify system files, or start services without explicit permission. Prefixing a command with sudo temporarily elevates you to admin level for just that one command. It's the Linux equivalent of Windows' "Run as Administrator."
+
+That's why sudo yum install docker -y works but plain yum install docker -y would fail with a permissions error.
+
+When you ran ssh -i "docker-key.pem" ec2-user@13.233.206.8, Git Bash was just the window you typed that command in. Once the connection succeeds, your terminal essentially becomes a window directly into the EC2 machine — every command you type after that (sudo yum install docker, git clone, etc.) runs on the EC2 instance, not on your laptop. You could see this in your prompt: it changed from Fazil@Jarvis (your laptop) to [ec2-user@ip-172-31-40-21] (the EC2 instance).
+
+Why not ECR/ECS?
+You could have used them — nothing stopped you — but they solve a different problem than what you had:
+
+ECR (Elastic Container Registry) is just a storage locker for Docker images — think of it like a private Docker Hub. You'd push your built image there, then pull it down onto a server to run it. Useful if you're deploying the same image to many machines, or building images somewhere and running them elsewhere.
+ECS (Elastic Container Service) is a system that automatically runs and manages containers for you across a fleet of servers — restarting crashed ones, scaling up/down based on traffic, load-balancing between multiple copies

@@ -1,0 +1,20 @@
+ Image vs Container vs Dockerfile — the core distinction
+Think of it like a recipe, a sealed meal-kit, and an actual cooked meal:
+
+Dockerfile = the recipe. A text file listing the steps to build something (base OS, copy files, install packages, what command to run).
+Image = the meal-kit. Running docker build executes the recipe once and produces a reusable, frozen snapshot — a packaged bundle of your app + all its dependencies + the OS layer it needs. Images don't run; they just sit there ready to be used. You can copy this same image to any machine with Docker and it'll behave identically.
+Container = the actual cooked meal, being eaten right now. Running docker run takes an image and starts it as a live, running process — with its own isolated filesystem, network, and memory, but sharing the host machine's kernel. You can start multiple containers from the same image (like cooking the same recipe multiple times), and each one runs independently.
+
+In your case:
+
+backend = the image (built once via docker build -t backend .)
+syncpad-app = the specific running container (started via docker run ... --name syncpad-app backend)
+
+If you ran docker run again with a different --name, you'd get a second, separate container running the exact same code — useful for testing, scaling, etc.
+7. Anything else worth knowing?
+A few loose but useful threads:
+
+docker ps shows only running containers. docker ps -a shows all containers, including stopped ones — useful when debugging a crash.
+docker exec -it syncpad-app sh lets you open a shell inside the running container, as if you SSH'd into it — handy for poking around and checking files exist where you expect.
+Your .pem key file (docker-key.pem) is essentially a password — never commit it to GitHub or share it. It's the only thing standing between anyone on the internet and root access to your instance.
+Right now your Security Group likely still has SSH (port 22) open to "Anywhere" by default from when you launched the instance — that's normal and expected for SSH access, just worth being aware it exists alongside your new port 4000 rule.

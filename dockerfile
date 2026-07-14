@@ -18,7 +18,8 @@ FROM node:20-alpine AS build
 WORKDIR /app
 COPY ./frontend .
 RUN npm install
-RUN npm run build   # produces a /app/dist folder
+RUN npm run build   
+# produces a /app/dist folder
 
 # ---- Stage 2: Final (production) ----
 FROM node:20-alpine
